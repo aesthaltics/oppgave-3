@@ -305,7 +305,6 @@ const helloChecker = (s) => {
     greetingToLangMap[
       s
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
         .replace(/[^a-zA-Z0-9 ]/g, "")
         .toLowerCase()
         .match(/hello|ciao|salut|hallo|hola|czesc/)?.[0]
