@@ -110,14 +110,17 @@ og at
       til alle person-objektene og lagre det i variabelen `combinedAge`."
 
 ikke sees på som en endring og gjelder "alle person-objektene" inkl. otto.
+
+nvm, we don't want otto:
+Gjør beregningene ETTER at du legger til to år på alderen, og husk, hopp over Otto!
 */
 for (let i = 0; i < people.length; i++) {
-  if (people[i]["name"] !== "Otto") {
-    people[i]["city"] = cities[randBetween(0, cities.length)];
-    people[i]["title"] = people[i]["male"] ? "Mr." : "Ms.";
-    people[i]["age"] += 2;
-    people[i]["hobbies"].unshift("coding");
-  }
+  if (people[i]["name"] === "Otto") continue;
+
+  people[i]["city"] = cities[randBetween(0, cities.length)];
+  people[i]["title"] = people[i]["male"] ? "Mr." : "Ms.";
+  people[i]["age"] += 2;
+  people[i]["hobbies"].unshift("coding");
   combinedAge += people[i]["age"];
 }
 
@@ -126,7 +129,7 @@ console.log(`combined age: ${combinedAge}`);
 
 let averageAge = 0;
 
-averageAge = combinedAge / people.length; //inkluderer otto jfr. kommentaren ovenfor
+averageAge = combinedAge / (people.length - 1);
 console.log(`average age: ${averageAge}`);
 
 /******************************************************************************
