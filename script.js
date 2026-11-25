@@ -98,13 +98,26 @@ const randBetween = (min, max) => {
 const inclusiveRandBetween = (min, max) => {
   return randBetween(min, max + 1);
 };
+/*
+jeg tolker 
+  "Hvis objektets `name`-verdi er "Otto", 
+  skal ingen av endringene nedenfor gjøres"
 
+som at det er endringen av alder, by, og hobbyer som ikke skal gjøres med otto.
+
+og at 
+      "Bruk løkken din til å regne ut den kombinerte alderen 
+      til alle person-objektene og lagre det i variabelen `combinedAge`."
+
+ikke sees på som en endring og gjelder "alle person-objektene" inkl. otto.
+*/
 for (let i = 0; i < people.length; i++) {
-  if (people[i]["name"] === "Otto") continue;
-  people[i]["city"] = cities[randBetween(0, cities.length)];
-  people[i]["title"] = people[i]["male"] ? "Mr." : "Ms.";
-  people[i]["age"] += 2;
-  people[i]["hobbies"].unshift("coding");
+  if (people[i]["name"] !== "Otto") {
+    people[i]["city"] = cities[randBetween(0, cities.length)];
+    people[i]["title"] = people[i]["male"] ? "Mr." : "Ms.";
+    people[i]["age"] += 2;
+    people[i]["hobbies"].unshift("coding");
+  }
   combinedAge += people[i]["age"];
 }
 
@@ -113,7 +126,7 @@ console.log(`combined age: ${combinedAge}`);
 
 let averageAge = 0;
 
-averageAge = combinedAge / people.length;
+averageAge = combinedAge / people.length; //inkluderer otto jfr. kommentaren ovenfor
 console.log(`average age: ${averageAge}`);
 
 /******************************************************************************
@@ -138,10 +151,11 @@ diceRoller(5, 20) skal returnere et array med 5 tilfeldige tall fra 1-20.
 
 // Skriv koden for oppgave 2 her
 
-const createDieRollArray = (size, dieSides) => {
+const createDieRollArray = (size, dieSides = 6) => {
   return new Array(size).fill(0).map((_) => inclusiveRandBetween(1, dieSides));
 };
-
+console.log(createDieRollArray(4));
+console.log(createDieRollArray(6));
 console.log(createDieRollArray(10, 20));
 
 /******************************************************************************
@@ -301,20 +315,18 @@ const greetings = [
 const helloChecker = (s) => {
   // this function assumes the word is the same without accents
   // this assumption might not be correct in all cases
-  return (
+  const language =
     greetingToLangMap[
       s
         .normalize("NFD")
         .replace(/[^a-zA-Z0-9 ]/g, "")
         .toLowerCase()
         .match(/hello|ciao|salut|hallo|hola|czesc/)?.[0]
-    ] ?? false
-  );
+    ] ?? false;
+
+  return language ? `HELLO oppdaget på ${language}.` : "Ingen HELLO oppdaget.";
 };
 
 greetings.forEach((string) => {
-  const lang = helloChecker(string);
-  return lang
-    ? console.log(`HELLO oppdaget på ${lang}.`)
-    : console.log("Ingen HELLO oppdaget.");
+  console.log(helloChecker(string));
 });
